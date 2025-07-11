@@ -1,4 +1,4 @@
-name: Deploy com Publish Profile
+name: Deploy para Azure com Publish Profile
 
 on:
   push:
@@ -10,20 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
+      - name: 🧾 Checkout do código
         uses: actions/checkout@v3
 
-      - name: Setup do .NET
+      - name: ⚙️ Setup do .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      - name: Build e Publish
+      - name: 🔨 Build e Publish do projeto principal
         run: |
-          dotnet build --configuration Release
-          dotnet publish -c Release -o ./publish
+          dotnet build FiapCloudGamesWebAPI/FiapCloudGamesWebAPI.csproj --configuration Release
+          dotnet publish FiapCloudGamesWebAPI/FiapCloudGamesWebAPI.csproj -c Release -o ./publish
 
-      - name: Deploy para Azure
+      - name: 🚀 Deploy para Azure App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: fiapgames-app
