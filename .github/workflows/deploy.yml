@@ -1,33 +1,31 @@
-name: Deploy para Azure
+name: Deploy com Publish Profile
 
 on:
   push:
     branches:
-      - main  # ou o nome do seu branch principal
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Setup do .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      - name: Build do projeto
-        run: dotnet build --configuration Release
+      - name: Build e Publish
+        run: |
+          dotnet build --configuration Release
+          dotnet publish -c Release -o ./publish
 
-      - name: Publicação do projeto
-        run: dotnet publish -c Release -o ./publish
-
-      - name: Deploy na Azure
+      - name: Deploy para Azure
         uses: azure/webapps-deploy@v2
         with:
           app-name: fiapgames-app
-          slot-name: Production
-          publish-profile: ${{ secrets.AZURE_CREDENTIALS }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: ./publish
