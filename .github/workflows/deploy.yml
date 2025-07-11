@@ -18,10 +18,13 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: 📁 Verificar arquivos do projeto principal
+        run: ls FiapCloudGameWebAPI
+
       - name: 🔨 Build e Publish do projeto principal
         run: |
-          dotnet build FiapCloudGamesWebAPI/FiapCloudGamesWebAPI.csproj --configuration Release
-          dotnet publish FiapCloudGamesWebAPI/FiapCloudGamesWebAPI.csproj -c Release -o ./publish
+          dotnet build FiapCloudGameWebAPI/FiapCloudGameWebAPI.csproj --configuration Release
+          dotnet publish FiapCloudGameWebAPI/FiapCloudGameWebAPI.csproj -c Release -o ./publish
 
       - name: 🚀 Deploy para Azure App Service
         uses: azure/webapps-deploy@v2
